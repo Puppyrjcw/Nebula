@@ -1,7 +1,2 @@
-
-<img width="1080" height="1080" alt="Nebula" src="https://github.com/user-attachments/assets/5f124589-5a9f-48ef-9986-44f7deb0e18c" /
+<img width="1080" height="1080" alt="Nebula" src="https://github.com/user-attachments/assets/1139015e-5de6-4865-acc2-f1cafefe9345" />
 # Nebula
-Nebula Game Engine
-
-Developer: Puppyrjcw
-
