@@ -1,10 +1,65 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <title>My WebGL Game</title>
-</head>
 <body>
-  <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
-  <script src="main.js"></script>
+<canvas id="glCanvas" width="600" height="400"></canvas>
+
+<script>
+const canvas = document.getElementById("glCanvas");
+const gl = canvas.getContext("webgl");
+
+// Vertex shader (controls position)
+const vsSource = `
+attribute vec2 aPosition;
+void main() {
+    gl_Position = vec4(aPosition, 0.0, 1.0);
+}
+`;
+
+// Fragment shader (controls color)
+const fsSource = `
+void main() {
+    gl_FragColor = vec4(0.2, 0.6, 1.0, 1.0);
+}
+`;
+
+// Compile shader
+function createShader(type, source) {
+    const shader = gl.createShader(type);
+    gl.shaderSource(shader, source);
+    gl.compileShader(shader);
+    return shader;
+}
+
+const vertexShader = createShader(gl.VERTEX_SHADER, vsSource);
+const fragmentShader = createShader(gl.FRAGMENT_SHADER, fsSource);
+
+// Create program
+const program = gl.createProgram();
+gl.attachShader(program, vertexShader);
+gl.attachShader(program, fragmentShader);
+gl.linkProgram(program);
+gl.useProgram(program);
+
+// Triangle vertices (X, Y)
+const vertices = new Float32Array([
+     0.0,  0.5,
+    -0.5, -0.5,
+     0.5, -0.5
+]);
+
+const buffer = gl.createBuffer();
+gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
+gl.bufferData(gl.ARRAY_BUFFER, vertices, gl.STATIC_DRAW);
+
+const position = gl.getAttribLocation(program, "aPosition");
+gl.enableVertexAttribArray(position);
+gl.vertexAttribPointer(position, 2, gl.FLOAT, false, 0, 0);
+
+// Clear and draw
+gl.clearColor(0, 0, 0, 1);
+gl.clear(gl.COLOR_BUFFER_BIT);
+gl.drawArrays(gl.TRIANGLES, 0, 3);
+</script>
+
 </body>
 </html>
